@@ -21,6 +21,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"regexp"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -131,7 +132,7 @@ func (g *Grouper) Members(group string) ([]rbacv1.Subject, error) {
 			for _, member := range members.Members {
 				subjects = append(subjects, rbacv1.Subject{
 					Kind:     "User",
-					Name:     member.Email,
+					Name:     strings.Replace(member.Email, "@", "-", -1),
 					APIGroup: "rbac.authorization.k8s.io",
 				})
 			}
